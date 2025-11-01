@@ -6,7 +6,6 @@ import GradualBlur from "@/components/GradualBlur";
 import Magnet from "@/components/Magnet";
 import NewsletterForm from "@/components/NewsletterForm";
 import ShareButton from "@/components/ShareButton";
-import ShinyText from "@/components/ShinyText";
 import { getContactBySlug } from "@/data/contacts";
 
 type ActionLink = {
@@ -72,7 +71,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
       href: `/c/${slug}/guides`,
       label: "📚 Guides & Mini-formations (Premium)",
       description: "Bibliothèque privée d'expert - teasing & accès immédiat aux contenus débloqués.",
-      helper: "Guides vendeurs, checklists, mini-formations. Accès prioritaire, FOMO maîtrisée.",
+      helper: "Guides vendeurs, checklists, mini-formations. Accès progressif aux ressources.",
       badge: "Premium",
       badgeClass: "bg-[rgba(56,189,248,0.16)] text-sky-600",
       iconClass: "bg-[rgba(56,189,248,0.14)] text-sky-600",
@@ -180,9 +179,9 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
             <div className="relative flex flex-col gap-8">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.7)]">
-                  <span className="rounded-full border border-[rgba(148,197,255,0.35)] bg-white/80 px-3 py-1">Accompagnement sur-mesure</span>
-                  <span className="rounded-full border border-[rgba(16,185,129,0.3)] bg-[rgba(16,185,129,0.1)] text-emerald-600 px-3 py-1">Conseil stratégique</span>
-                  <span className="rounded-full border border-[rgba(252,211,77,0.35)] bg-[rgba(252,211,77,0.18)] text-amber-600 px-3 py-1">Engagement qualité</span>
+                  <span className="rounded-full border border-[rgba(148,197,255,0.35)] bg-white/80 px-3 py-1">Écoute & clarté</span>
+                  <span className="rounded-full border border-[rgba(16,185,129,0.3)] bg-[rgba(16,185,129,0.1)] text-emerald-600 px-3 py-1">Conseil</span>
+                  <span className="rounded-full border border-[rgba(252,211,77,0.35)] bg-[rgba(252,211,77,0.18)] text-amber-600 px-3 py-1">Qualité de suivi</span>
                 </div>
                 <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-center sm:gap-3">
                   <ShareButton
@@ -260,14 +259,17 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
 
                 <div className="space-y-6">
                   <div className="space-y-3">
-                    <h1 className="text-3xl font-semibold leading-tight text-[color:var(--alv-navy)] sm:text-4xl">🏡 Expert immobilier - Finistère</h1>
-                    <p className="text-lg font-medium text-slate-600 sm:text-xl">J'accompagne vendeurs & investisseurs sérieux.</p>
-                    <ShinyText text="Accompagnement sérieux uniquement" speed={6} className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600 sm:text-base" />
+                    <h1 className="text-3xl font-semibold leading-tight text-[color:var(--alv-navy)] sm:text-4xl">🏡 Conseiller immobilier & investisseur local - Finistère</h1>
+                    <p className="text-lg font-medium text-slate-600 sm:text-xl">J'accompagne les familles et les investisseurs avec méthode et transparence.</p>
+                    <p className="text-sm font-semibold text-emerald-600 sm:text-base">Accompagnement personnalisé et rigoureux.</p>
                   </div>
-                  <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
-                    J'accompagne vendeurs et investisseurs engagés qui souhaitent un suivi sérieux et méthodique.
-                    Chaque projet est travaillé avec rigueur, transparence et stratégie pour garantir un résultat optimal.
-                  </p>
+                  <div className="space-y-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+                    <p>Je suis né en Guadeloupe, où j'ai passé mes dix premières années, entouré de soleil, d'eau et de simplicité.</p>
+                    <p>À l'âge de 10 ans, la vie m'a demandé de grandir plus vite que prévu. Le décès de mon père a marqué un tournant, et ma famille a dû repartir de zéro dans le Nord-Pas-de-Calais.</p>
+                    <p>C'est là que j'ai appris deux choses essentielles : rien n'est acquis, et on peut toujours reconstruire, pierre par pierre.</p>
+                    <p>En 2021, j'ai choisi la Bretagne pour écrire mon propre chapitre. J'y ai trouvé ce que je cherchais : de l'authenticité, du sens et la possibilité de bâtir.</p>
+                    <p>Aujourd'hui, j'accompagne les projets immobiliers avec cette même philosophie : prendre le temps, faire les choses bien, et avancer avec sérieux, humanité et clarté.</p>
+                  </div>
                   <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[rgba(30,58,95,0.7)]">
                     <span className="rounded-full bg-[rgba(148,197,255,0.18)] px-3 py-1 text-[color:var(--alv-navy)]">Pleyben</span>
                     <span className="rounded-full bg-[rgba(148,197,255,0.18)] px-3 py-1 text-[color:var(--alv-navy)]">Quimper</span>
@@ -368,7 +370,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">Vision long terme</p>
                 <h2 className="text-2xl font-semibold text-[color:var(--alv-navy)] sm:text-[26px]">Boutons verrouillés - encore un peu de patience</h2>
               </div>
-              <p className="text-xs text-slate-500 sm:text-sm">Ces ressources seront réservées aux clients et abonnés engagés.</p>
+              <p className="text-xs text-slate-500 sm:text-sm">Ces ressources sont en cours de création — merci pour votre patience.</p>
             </header>
             <div className="grid gap-4">
               {lockedActions.map((item) => (
