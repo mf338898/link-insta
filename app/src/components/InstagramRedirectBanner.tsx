@@ -50,8 +50,7 @@ export default function InstagramRedirectBanner() {
   }, []);
 
   const handleOpenInBrowser = () => {
-    if (typeof window === "undefined" || typeof navigator === "undefined") return;
-    
+    if (typeof window === "undefined" || typeof navigator === "undefined" || typeof document === "undefined") return;
     
     const currentUrl = window.location.href;
     
