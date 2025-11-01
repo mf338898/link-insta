@@ -1030,7 +1030,7 @@ export default function SubmitProjectForm({ contactName, contactEmail }: SubmitP
                 </label>
               </div>
               <p className="text-xs text-emerald-700">
-                Tu sollicites un chirurgien de l'immobilier : je prends peu de mandats pour garder un niveau d'exigence élevé.
+                Tu sollicites un chirurgien de l&apos;immobilier : je prends peu de mandats pour garder un niveau d&apos;exigence élevé.
               </p>
               {showValidation && !data.validationAccepted && renderValidationMessage("Accepte les conditions de sélection.")}
             </div>
@@ -1239,7 +1239,7 @@ export default function SubmitProjectForm({ contactName, contactEmail }: SubmitP
               <p className="font-semibold text-emerald-700">Merci pour ton envoi 🙏</p>
               <p className="mt-2 text-[color:var(--alv-navy)]">
                 Je vais analyser ton projet avec attention. Si ton dossier matche mes critères (zone Finistère & méthode),
-                je te recontacte sous 24-72 h pour la suite. Tu reçois aussi une copie de ton dossier par email si tu te l'envoies via le bouton ci-dessous.
+                je te recontacte sous 24-72 h pour la suite. Tu reçois aussi une copie de ton dossier par email si tu te l&apos;envoies via le bouton ci-dessous.
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <Magnet>
@@ -1263,7 +1263,7 @@ export default function SubmitProjectForm({ contactName, contactEmail }: SubmitP
                     }}
                     className="inline-flex items-center justify-center gap-2 rounded-3xl border border-[rgba(59,130,246,0.4)] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--alv-navy)] shadow-[0_16px_32px_rgba(59,130,246,0.18)] transition hover:-translate-y-0.5"
                   >
-                    S'envoyer une copie
+                    S&apos;envoyer une copie
                   </button>
                 )}
               </div>
