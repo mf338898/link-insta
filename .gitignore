@@ -24,3 +24,7 @@ pnpm-debug.log*
 
 # Misc
 coverage/
+
+# Personal files (not part of the project)
+Matthis_Foveau.vcf
+Photo_profil_mattthis.jpg
