@@ -42,39 +42,77 @@ if ! git diff --staged --quiet || ! git diff --quiet; then
 fi
 
 # Vérifier si le remote existe déjà
+GITHUB_URL="https://github.com/$REPO_USER/$REPO_NAME.git"
 if git remote get-url origin &> /dev/null; then
     echo "✓ Remote 'origin' existe déjà"
     REMOTE_URL=$(git remote get-url origin)
     echo "   URL: $REMOTE_URL"
+    # Mettre à jour si différent
+    if [ "$REMOTE_URL" != "$GITHUB_URL" ]; then
+        git remote set-url origin "$GITHUB_URL"
+        echo "✓ Remote mis à jour: $GITHUB_URL"
+    fi
 else
     # Créer le remote
     echo "🔗 Configuration du remote GitHub..."
-    GITHUB_URL="https://github.com/$REPO_USER/$REPO_NAME.git"
-    git remote add origin "$GITHUB_URL" 2>/dev/null || git remote set-url origin "$GITHUB_URL"
+    git remote add origin "$GITHUB_URL"
     echo "✓ Remote configuré: $GITHUB_URL"
 fi
 
-# Demander confirmation avant de pousser
-echo ""
-echo "⚠️  IMPORTANT: Assurez-vous que le repository existe sur GitHub!"
-echo "   Si ce n'est pas le cas, créez-le d'abord sur: https://github.com/new"
-echo ""
-read -p "Continuer le push vers GitHub? (o/N) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Oo]$ ]]; then
-    echo "❌ Déploiement annulé"
-    exit 1
+# Essayer de créer le repo GitHub automatiquement si un token est disponible
+GITHUB_TOKEN=${GITHUB_TOKEN:-""}
+if [ -n "$GITHUB_TOKEN" ]; then
+    echo "🔍 Vérification de l'existence du repository sur GitHub..."
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+        -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Accept: application/vnd.github.v3+json" \
+        "https://api.github.com/repos/$REPO_USER/$REPO_NAME")
+    
+    if [ "$HTTP_CODE" = "404" ]; then
+        echo "📦 Création du repository GitHub..."
+        RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d "{\"name\":\"$REPO_NAME\",\"private\":false,\"auto_init\":false}" \
+            "https://api.github.com/user/repos")
+        
+        HTTP_CODE_CREATE=$(echo "$RESPONSE" | tail -1)
+        if [ "$HTTP_CODE_CREATE" = "201" ] || [ "$HTTP_CODE_CREATE" = "200" ]; then
+            echo "✅ Repository créé avec succès sur GitHub!"
+        else
+            echo "⚠️  Impossible de créer le repository automatiquement (HTTP $HTTP_CODE_CREATE)"
+            echo "   Créez-le manuellement sur: https://github.com/new"
+        fi
+    elif [ "$HTTP_CODE" = "200" ]; then
+        echo "✅ Repository existe déjà sur GitHub"
+    else
+        echo "⚠️  Erreur lors de la vérification (HTTP $HTTP_CODE)"
+        echo "   Le repository pourrait ne pas exister. Créez-le sur: https://github.com/new"
+    fi
+else
+    echo "⚠️  GITHUB_TOKEN non défini - création manuelle nécessaire"
+    echo "   Créez le repository sur: https://github.com/new"
+    echo "   Nom: $REPO_NAME"
 fi
 
 # Push vers GitHub
+echo ""
 echo "📤 Push vers GitHub..."
-git push -u origin main || {
+if git push -u origin main 2>&1; then
+    echo "✅ Code poussé vers GitHub avec succès!"
+else
+    PUSH_ERROR=$?
     echo ""
-    echo "❌ Erreur lors du push. Le repository existe-t-il sur GitHub?"
-    echo "   Créez-le ici: https://github.com/new"
-    echo "   Nom suggéré: $REPO_NAME"
-    exit 1
-}
+    echo "❌ Erreur lors du push (code: $PUSH_ERROR)"
+    echo ""
+    echo "Solutions possibles:"
+    echo "   1. Vérifiez que le repository existe sur GitHub: https://github.com/$REPO_USER/$REPO_NAME"
+    echo "   2. Créez-le ici si nécessaire: https://github.com/new"
+    echo "   3. Vérifiez vos permissions GitHub"
+    echo "   4. Essayez: git push -u origin main --force (si vous êtes sûr)"
+    exit $PUSH_ERROR
+fi
 
 echo ""
 echo "✅ Code poussé vers GitHub avec succès!"
