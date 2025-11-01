@@ -2,6 +2,19 @@
 
 import { useEffect, useState } from "react";
 
+interface WindowWithOpera extends Window {
+  opera?: string;
+}
+
+interface WindowWithInstagram extends Window {
+  Instagram?: unknown;
+  webkit?: {
+    messageHandlers?: {
+      instagram?: unknown;
+    };
+  };
+}
+
 export default function InstagramRedirectBanner() {
   const [isInstagram, setIsInstagram] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -11,9 +24,6 @@ export default function InstagramRedirectBanner() {
     const checkInstagram = () => {
       if (typeof window === "undefined" || typeof navigator === "undefined") return;
       
-      interface WindowWithOpera extends Window {
-        opera?: string;
-      }
       const userAgent = navigator?.userAgent || navigator?.vendor || (typeof window !== "undefined" && (window as WindowWithOpera)?.opera) || "";
       
       // User agents Instagram connus
@@ -28,14 +38,6 @@ export default function InstagramRedirectBanner() {
       const isInstaWebView = instagramPatterns.some(pattern => pattern.test(userAgent));
       
       // Vérifier les propriétés spécifiques à Instagram WebView
-      interface WindowWithInstagram extends Window {
-        Instagram?: unknown;
-        webkit?: {
-          messageHandlers?: {
-            instagram?: unknown;
-          };
-        };
-      }
       const isInstaContext = 
         ((window as WindowWithInstagram)?.Instagram) ||
         // Instagram WebView a souvent des propriétés spécifiques
