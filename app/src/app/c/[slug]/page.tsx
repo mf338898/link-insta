@@ -57,7 +57,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
       badgeClass: "bg-[rgba(236,72,153,0.12)] text-rose-500",
       iconClass: "bg-[rgba(236,72,153,0.14)] text-rose-500",
       disabled: true,
-      disabledMessage: "Bientot disponible pour toute demande d'estimation. Merci de contacter l'agence directement d'ici la.",
+      disabledMessage: "Bientôt disponible pour les demandes d'estimation. Merci de contacter l'agence directement jusque-là.",
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 7V6a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -70,7 +70,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
       id: "premium-guides",
       href: `/c/${slug}/guides`,
       label: "📚 Guides & Mini-formations (Premium)",
-      description: "Bibliothèque privée d'expert - contenus débloqués progressivement.",
+      description: "Bibliothèque privée d'expertises - contenus débloqués progressivement.",
       helper: "Guides vendeurs, checklists, mini-formations. Accès progressif aux ressources.",
       badge: "Premium",
       badgeClass: "bg-[rgba(56,189,248,0.16)] text-sky-600",
@@ -234,9 +234,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                   </div>
                   <div className="space-y-1">
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[rgba(76,29,149,0.7)]">{name}</p>
-                    {title && (
-                      <p className="text-sm font-medium text-slate-500">{title}</p>
-                    )}
+                    <p className="text-sm font-medium text-slate-500">Conseiller immobilier & investisseur local</p>
                     {displayHandle && (
                       <Link
                         href="https://www.instagram.com/matthis_immobilier"
@@ -314,7 +312,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                             <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.28em] ${action.badgeClass}`}>
                               {action.badge}
                             </span>
-                            <span className="inline-flex items-center rounded-full bg-[rgba(236,72,153,0.12)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-rose-500">
+                            <span className="inline-flex items-center rounded-full bg-[rgba(236,72,153,0.12)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-amber-600">
                               Bientot
                             </span>
                           </div>
@@ -327,7 +325,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                       </div>
                       {action.helper && <p className="text-xs text-slate-400">{action.helper}</p>}
                       {action.disabledMessage && (
-                        <p className="text-xs font-semibold text-rose-500">
+                        <p className="text-xs font-semibold text-amber-600">
                           {action.disabledMessage}
                         </p>
                       )}
