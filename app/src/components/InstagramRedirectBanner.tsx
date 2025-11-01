@@ -11,7 +11,10 @@ export default function InstagramRedirectBanner() {
     const checkInstagram = () => {
       if (typeof window === "undefined" || typeof navigator === "undefined") return;
       
-      const userAgent = navigator?.userAgent || navigator?.vendor || (window as any)?.opera || "";
+      interface WindowWithOpera extends Window {
+        opera?: string;
+      }
+      const userAgent = navigator?.userAgent || navigator?.vendor || (typeof window !== "undefined" && (window as WindowWithOpera)?.opera) || "";
       
       // User agents Instagram connus
       const instagramPatterns = [
@@ -25,10 +28,18 @@ export default function InstagramRedirectBanner() {
       const isInstaWebView = instagramPatterns.some(pattern => pattern.test(userAgent));
       
       // Vérifier les propriétés spécifiques à Instagram WebView
+      interface WindowWithInstagram extends Window {
+        Instagram?: unknown;
+        webkit?: {
+          messageHandlers?: {
+            instagram?: unknown;
+          };
+        };
+      }
       const isInstaContext = 
-        ((window as any)?.Instagram) ||
+        ((window as WindowWithInstagram)?.Instagram) ||
         // Instagram WebView a souvent des propriétés spécifiques
-        ((window as any)?.webkit?.messageHandlers?.instagram) ||
+        ((window as WindowWithInstagram)?.webkit?.messageHandlers?.instagram) ||
         // Détection par referrer (peut être trompeur)
         (typeof document !== "undefined" && document?.referrer?.includes("instagram.com"));
       
@@ -90,7 +101,7 @@ export default function InstagramRedirectBanner() {
             // Si ça n'a pas fonctionné, utiliser location.href comme fallback
             window.location.href = currentUrl;
           }
-        } catch (e) {
+        } catch {
           // Fallback: redirection directe
           window.location.href = currentUrl;
         }
@@ -103,7 +114,7 @@ export default function InstagramRedirectBanner() {
           // Fallback: redirection directe
           window.location.href = currentUrl;
         }
-      } catch (e) {
+      } catch {
         window.location.href = currentUrl;
       }
     } else {

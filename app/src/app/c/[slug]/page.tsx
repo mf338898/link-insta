@@ -35,7 +35,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
   const contact = getContactBySlug(slug);
   if (!contact) return notFound();
 
-  const { name, handle, title, status, avatarUrl, url } = contact;
+  const { name, handle, avatarUrl, url } = contact;
   const displayHandle = handle ? (handle.startsWith("@") ? handle : `@${handle}`) : null;
   const avatarSrc = avatarUrl ?? "/images/avatars/matthis-profile.png";
   const shareTitle = `${name} - Conseiller immobilier & investisseur local (Finistère)`;
