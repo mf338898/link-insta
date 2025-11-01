@@ -35,10 +35,12 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
   const contact = getContactBySlug(slug);
   if (!contact) return notFound();
 
-  const { name, handle, avatarUrl, url } = contact;
+  const { name, handle, avatarUrl, url, title, status } = contact;
   const displayHandle = handle ? (handle.startsWith("@") ? handle : `@${handle}`) : null;
   const avatarSrc = avatarUrl ?? "/images/avatars/matthis-profile.png";
-  const shareTitle = `${name} - Conseiller immobilier & investisseur local (Finistère)`;
+  const displayTitle = title ?? "Conseiller immobilier & investisseur local";
+  const displayStatus = status ?? "Accompagnement personnalisé et rigoureux.";
+  const shareTitle = `${name} - ${displayTitle} (Finistère)`;
   const fallbackAgencyUrl = "https://www.alvimmobilier.com";
   const agencyUrl = url ?? fallbackAgencyUrl;
   let agencyLabel = agencyUrl.replace(/^https?:\/\//, "");
@@ -234,7 +236,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                   </div>
                   <div className="space-y-1">
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[rgba(76,29,149,0.7)]">{name}</p>
-                    <p className="text-sm font-medium text-slate-500">Conseiller immobilier & investisseur local</p>
+                    <p className="text-sm font-medium text-slate-500">{displayTitle}</p>
                     {displayHandle && (
                       <Link
                         href="https://www.instagram.com/matthis_immobilier"
@@ -257,9 +259,11 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
 
                 <div className="space-y-6">
                   <div className="space-y-3">
-                    <h1 className="text-3xl font-semibold leading-tight text-[color:var(--alv-navy)] sm:text-4xl">Conseiller immobilier & investisseur local - Finistère</h1>
+                    <h1 className="text-3xl font-semibold leading-tight text-[color:var(--alv-navy)] sm:text-4xl">
+                      {title ? `${title} - Finistère` : "Conseiller immobilier & investisseur local - Finistère"}
+                    </h1>
                     <p className="text-lg font-medium text-slate-600 sm:text-xl">J'aide les familles et les investisseurs avec méthode et transparence.</p>
-                    <p className="text-sm font-semibold text-emerald-600 sm:text-base">Accompagnement personnalisé et rigoureux.</p>
+                    <p className="text-sm font-semibold text-emerald-600 sm:text-base">{displayStatus}</p>
                   </div>
                   <div className="space-y-3 text-sm leading-relaxed text-slate-600 sm:text-base">
                     <p>Je suis né en Guadeloupe, où j'ai passé mes dix premières années, entouré de soleil, d'eau et de simplicité.</p>

@@ -15,71 +15,76 @@ interface WindowWithInstagram extends Window {
   };
 }
 
+const isClientEnvironment = () => typeof window !== "undefined" && typeof navigator !== "undefined";
+
 export default function InstagramRedirectBanner() {
   const [isInstagram, setIsInstagram] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Détecter si on est dans Instagram WebView
-    const checkInstagram = () => {
-      if (typeof window === "undefined" || typeof navigator === "undefined") return;
-      
-      const userAgent = navigator?.userAgent || navigator?.vendor || (typeof window !== "undefined" && (window as WindowWithOpera)?.opera) || "";
-      
+    const checkInstagram = (): void => {
+      if (!isClientEnvironment()) return;
+
+      const operaUserAgent = (window as WindowWithOpera)?.opera ?? "";
+      const userAgent = navigator.userAgent || navigator.vendor || operaUserAgent || "";
+
       // User agents Instagram connus
-      const instagramPatterns = [
+      const instagramPatterns: readonly RegExp[] = [
         /Instagram/i,
         /FBAN/i, // Facebook App (inclut Instagram)
         /FBAV/i, // Facebook App Version
         /FBSV/i, // Facebook App String Version
       ];
-      
+
       // Vérifier si on est dans Instagram
-      const isInstaWebView = instagramPatterns.some(pattern => pattern.test(userAgent));
-      
+      const isInstaWebView = instagramPatterns.some((pattern: RegExp) => pattern.test(userAgent));
+
       // Vérifier les propriétés spécifiques à Instagram WebView
-      const isInstaContext = 
-        ((window as WindowWithInstagram)?.Instagram) ||
+      const instagramWindow = window as WindowWithInstagram;
+      const documentReferrer = typeof document !== "undefined" ? document.referrer : "";
+      const isInstaContext =
+        Boolean(instagramWindow?.Instagram) ||
         // Instagram WebView a souvent des propriétés spécifiques
-        ((window as WindowWithInstagram)?.webkit?.messageHandlers?.instagram) ||
+        Boolean(instagramWindow?.webkit?.messageHandlers?.instagram) ||
         // Détection par referrer (peut être trompeur)
-        (typeof document !== "undefined" && document?.referrer?.includes("instagram.com"));
-      
+        documentReferrer.includes("instagram.com");
+
       // Vérifier les dimensions spécifiques (Instagram WebView a souvent des dimensions spécifiques)
-      const windowWidth = window?.innerWidth || 0;
-      const windowHeight = window?.innerHeight || 0;
-      const isLikelyMobileWebView = 
-        (windowWidth <= 430 || windowWidth <= 390) && 
+      const windowWidth = window.innerWidth || 0;
+      const windowHeight = window.innerHeight || 0;
+      const isLikelyMobileWebView =
+        (windowWidth <= 430 || windowWidth <= 390) &&
         (windowHeight <= 932 || windowHeight <= 844);
-      
+
       if (isInstaWebView || (isInstaContext && isLikelyMobileWebView)) {
         setIsInstagram(true);
         // Afficher le banner après un court délai pour une meilleure UX
-        setTimeout(() => setIsVisible(true), 500);
+        window.setTimeout(() => setIsVisible(true), 500);
       }
     };
 
     checkInstagram();
   }, []);
 
-  const handleOpenInBrowser = () => {
-    if (typeof window === "undefined" || typeof navigator === "undefined" || typeof document === "undefined") return;
-    
+  const handleOpenInBrowser = (): void => {
+    if (!isClientEnvironment() || typeof document === "undefined") return;
+
     const currentUrl = window.location.href;
-    
+
     // Sur iOS, utiliser plusieurs techniques pour forcer l'ouverture externe
-    const isIOS = /iPad|iPhone|iPod/.test(navigator?.userAgent || "");
-    const isAndroid = /Android/.test(navigator?.userAgent || "");
-    
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent || "");
+    const isAndroid = /Android/.test(navigator.userAgent || "");
+
     if (isIOS) {
       // Technique 1: Créer un lien temporaire avec target="_blank" et le déclencher
-      const link = document.createElement("a");
+      const link: HTMLAnchorElement = document.createElement("a");
       link.href = currentUrl;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       link.style.display = "none";
       document.body.appendChild(link);
-      
+
       // Déclencher le clic
       const clickEvent = new MouseEvent("click", {
         view: window,
@@ -87,16 +92,16 @@ export default function InstagramRedirectBanner() {
         cancelable: true,
       });
       link.dispatchEvent(clickEvent);
-      
+
       // Nettoyer après un court délai
-      setTimeout(() => {
-        if (link.parentNode) {
+      window.setTimeout(() => {
+        if (link.parentNode !== null) {
           document.body.removeChild(link);
         }
       }, 100);
-      
+
       // Technique 2: Essayer aussi avec window.open (parfois plus fiable)
-      setTimeout(() => {
+      window.setTimeout(() => {
         try {
           const newWindow = window.open(currentUrl, "_blank");
           if (!newWindow || newWindow.closed) {
@@ -181,4 +186,3 @@ export default function InstagramRedirectBanner() {
     </div>
   );
 }
-
