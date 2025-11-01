@@ -9,9 +9,9 @@ export default function InstagramRedirectBanner() {
   useEffect(() => {
     // Détecter si on est dans Instagram WebView
     const checkInstagram = () => {
-      if (typeof window === "undefined") return;
+      if (typeof window === "undefined" || typeof navigator === "undefined") return;
       
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      const userAgent = navigator?.userAgent || navigator?.vendor || (window as any)?.opera || "";
       
       // User agents Instagram connus
       const instagramPatterns = [
@@ -26,15 +26,15 @@ export default function InstagramRedirectBanner() {
       
       // Vérifier les propriétés spécifiques à Instagram WebView
       const isInstaContext = 
-        (window as any).Instagram ||
+        ((window as any)?.Instagram) ||
         // Instagram WebView a souvent des propriétés spécifiques
-        (window as any).webkit?.messageHandlers?.instagram ||
+        ((window as any)?.webkit?.messageHandlers?.instagram) ||
         // Détection par referrer (peut être trompeur)
-        document.referrer?.includes("instagram.com");
+        (typeof document !== "undefined" && document?.referrer?.includes("instagram.com"));
       
       // Vérifier les dimensions spécifiques (Instagram WebView a souvent des dimensions spécifiques)
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
+      const windowWidth = window?.innerWidth || 0;
+      const windowHeight = window?.innerHeight || 0;
       const isLikelyMobileWebView = 
         (windowWidth <= 430 || windowWidth <= 390) && 
         (windowHeight <= 932 || windowHeight <= 844);
@@ -50,11 +50,13 @@ export default function InstagramRedirectBanner() {
   }, []);
 
   const handleOpenInBrowser = () => {
+    if (typeof window === "undefined" || typeof navigator === "undefined") return;
+    
     const currentUrl = window.location.href;
     
     // Sur iOS, utiliser plusieurs techniques pour forcer l'ouverture externe
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator?.userAgent || "");
+    const isAndroid = /Android/.test(navigator?.userAgent || "");
     
     if (isIOS) {
       // Technique 1: Créer un lien temporaire avec target="_blank" et le déclencher
