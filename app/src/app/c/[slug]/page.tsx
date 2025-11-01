@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import GradualBlur from "@/components/GradualBlur";
 import Magnet from "@/components/Magnet";
+import NewsletterForm from "@/components/NewsletterForm";
 import ShareButton from "@/components/ShareButton";
 import ShinyText from "@/components/ShinyText";
 import { getContactBySlug } from "@/data/contacts";
@@ -19,6 +20,8 @@ type ActionLink = {
   badgeClass: string;
   helper?: string;
   external?: boolean;
+  disabled?: boolean;
+  disabledMessage?: string;
 };
 
 type LockedAction = {
@@ -54,6 +57,8 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
       badge: "Sélection",
       badgeClass: "bg-[rgba(236,72,153,0.12)] text-rose-500",
       iconClass: "bg-[rgba(236,72,153,0.14)] text-rose-500",
+      disabled: true,
+      disabledMessage: "Bientot disponible pour toute demande d'estimation. Merci de contacter l'agence directement d'ici la.",
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M7 7V6a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -175,13 +180,9 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
             <div className="relative flex flex-col gap-8">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.7)]">
-                  <span className="rounded-full border border-[rgba(148,197,255,0.35)] bg-white/80 px-3 py-1">Sélection privée</span>
-                  <span className="rounded-full border border-[rgba(16,185,129,0.3)] bg-[rgba(16,185,129,0.1)] text-emerald-600 px-3 py-1">Approche conseil</span>
-                  {status && (
-                    <span className="rounded-full border border-[rgba(252,211,77,0.35)] bg-[rgba(252,211,77,0.18)] text-amber-600 px-3 py-1">
-                      {status}
-                    </span>
-                  )}
+                  <span className="rounded-full border border-[rgba(148,197,255,0.35)] bg-white/80 px-3 py-1">Accompagnement sur-mesure</span>
+                  <span className="rounded-full border border-[rgba(16,185,129,0.3)] bg-[rgba(16,185,129,0.1)] text-emerald-600 px-3 py-1">Conseil stratégique</span>
+                  <span className="rounded-full border border-[rgba(252,211,77,0.35)] bg-[rgba(252,211,77,0.18)] text-amber-600 px-3 py-1">Engagement qualité</span>
                 </div>
                 <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-center sm:gap-3">
                   <ShareButton
@@ -264,7 +265,8 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                     <ShinyText text="Accompagnement sérieux uniquement" speed={6} className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600 sm:text-base" />
                   </div>
                   <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
-                    Je suis un expert immobilier local. Je choisis mes clients. Je ne cherche pas à tout prix à vendre mes services - je sélectionne, je conseille, je fais les choses proprement et avec méthode.
+                    J'accompagne vendeurs et investisseurs engagés qui souhaitent un suivi sérieux et méthodique.
+                    Chaque projet est travaillé avec rigueur, transparence et stratégie pour garantir un résultat optimal.
                   </p>
                   <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[rgba(30,58,95,0.7)]">
                     <span className="rounded-full bg-[rgba(148,197,255,0.18)] px-3 py-1 text-[color:var(--alv-navy)]">Pleyben</span>
@@ -287,83 +289,76 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
 
             <div className="grid gap-4">
               {actionLinks.map((action) => (
-                <Magnet key={action.id} wrapperClassName="w-full" magnetStrength={3.5} padding={60}>
-                  <a
-                    href={action.href}
-                    target={action.external ? "_blank" : undefined}
-                    rel={action.external ? "noopener noreferrer" : undefined}
-                    className="group relative flex w-full flex-col gap-2.5 rounded-2xl border border-[rgba(148,197,255,0.2)] bg-white/95 px-4 py-4 text-[color:var(--alv-navy)] shadow-[0_12px_28px_rgba(15,23,42,0.12)] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(15,23,42,0.16)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(148,197,255,0.45)]"
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${action.iconClass} shadow-inner`}>{action.icon}</span>
-                      <div className="flex flex-1 flex-col gap-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-base font-semibold">{action.label}</span>
-                          <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.28em] ${action.badgeClass}`}>
-                            {action.badge}
-                          </span>
+                <Magnet
+                  key={action.id}
+                  wrapperClassName="w-full"
+                  magnetStrength={action.disabled ? 0 : 3.5}
+                  padding={60}
+                  disabled={action.disabled}
+                >
+                  {action.disabled ? (
+                    <div
+                      role="button"
+                      aria-disabled="true"
+                      className="group relative flex w-full flex-col gap-2.5 rounded-2xl border border-[rgba(148,197,255,0.2)] bg-white/70 px-4 py-4 text-[color:var(--alv-navy)] opacity-85 shadow-[0_8px_20px_rgba(15,23,42,0.08)] backdrop-blur-sm transition"
+                    >
+                      <div className="absolute inset-0 rounded-2xl border border-dashed border-[rgba(236,72,153,0.45)]" aria-hidden="true" />
+                      <div className="flex items-start gap-3">
+                        <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${action.iconClass} shadow-inner`}>{action.icon}</span>
+                        <div className="flex flex-1 flex-col gap-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-base font-semibold">{action.label}</span>
+                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.28em] ${action.badgeClass}`}>
+                              {action.badge}
+                            </span>
+                            <span className="inline-flex items-center rounded-full bg-[rgba(236,72,153,0.12)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-rose-500">
+                              Bientot
+                            </span>
+                          </div>
+                          <span className="text-sm text-slate-500">{action.description}</span>
                         </div>
-                        <span className="text-sm text-slate-500">{action.description}</span>
+                        <svg className="mt-1 h-4 w-4 text-slate-300" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M8 7L17 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          <path d="M8 17H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
                       </div>
-                      <svg className="mt-1 h-4 w-4 text-slate-400 transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[color:var(--alv-navy)]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M7 17L17 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        <path d="M9 7H17V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                      </svg>
+                      {action.helper && <p className="text-xs text-slate-400">{action.helper}</p>}
+                      {action.disabledMessage && (
+                        <p className="text-xs font-semibold text-rose-500">
+                          {action.disabledMessage}
+                        </p>
+                      )}
                     </div>
-                    {action.helper && <p className="text-xs text-slate-400">{action.helper}</p>}
-                  </a>
+                  ) : (
+                    <a
+                      href={action.href}
+                      target={action.external ? "_blank" : undefined}
+                      rel={action.external ? "noopener noreferrer" : undefined}
+                      className="group relative flex w-full flex-col gap-2.5 rounded-2xl border border-[rgba(148,197,255,0.2)] bg-white/95 px-4 py-4 text-[color:var(--alv-navy)] shadow-[0_12px_28px_rgba(15,23,42,0.12)] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(15,23,42,0.16)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(148,197,255,0.45)]"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${action.iconClass} shadow-inner`}>{action.icon}</span>
+                        <div className="flex flex-1 flex-col gap-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-base font-semibold">{action.label}</span>
+                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.28em] ${action.badgeClass}`}>
+                              {action.badge}
+                            </span>
+                          </div>
+                          <span className="text-sm text-slate-500">{action.description}</span>
+                        </div>
+                        <svg className="mt-1 h-4 w-4 text-slate-400 transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[color:var(--alv-navy)]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M7 17L17 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          <path d="M9 7H17V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                      {action.helper && <p className="text-xs text-slate-400">{action.helper}</p>}
+                    </a>
+                  )}
                 </Magnet>
               ))}
 
-              <div className="relative flex w-full flex-col gap-3 rounded-3xl border border-[rgba(16,185,129,0.35)] bg-gradient-to-br from-white via-emerald-50/85 to-sky-50/80 px-5 py-5 shadow-[0_18px_44px_rgba(16,185,129,0.18)]">
-                <div className="flex items-start gap-4">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(16,185,129,0.12)] text-emerald-600 shadow-inner">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1.5" />
-                      <path d="M5 7l7 5 7-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  <div className="flex flex-1 flex-col gap-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-base font-semibold text-[color:var(--alv-navy)] sm:text-lg">✉️ Recevoir mes conseils immobiliers</span>
-                      <span className="inline-flex items-center rounded-full bg-white/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-emerald-600">
-                        Newsletter 2x/mois
-                      </span>
-                    </div>
-                    <span className="text-sm text-slate-500">Marché, prix, erreurs à éviter, bonnes pratiques.</span>
-                  </div>
-                </div>
-                <form
-                  action="mailto:contact@alvimmobilier.bzh"
-                  method="post"
-                  encType="text/plain"
-                  className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
-                >
-                  <input
-                    type="hidden"
-                    name="Sujet"
-                    value="Inscription newsletter Stratégie immo"
-                  />
-                  <label className="sr-only" htmlFor="newsletter-email">
-                    Adresse email
-                  </label>
-                  <input
-                    id="newsletter-email"
-                    name="Adresse"
-                    type="email"
-                    required
-                    placeholder="ton.email@exemple.fr"
-                    className="w-full rounded-2xl border border-[rgba(148,197,255,0.35)] bg-white/90 px-4 py-3 text-sm text-[color:var(--alv-navy)] shadow-[0_10px_24px_rgba(15,23,42,0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(96,165,216,0.55)]"
-                  />
-                  <button
-                    type="submit"
-                    className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-[color:var(--alv-navy)] via-[color:var(--alv-sky)] to-[color:var(--alv-emerald)] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(15,23,42,0.24)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/60"
-                  >
-                    Je m'inscris
-                  </button>
-                </form>
-                <p className="text-xs text-slate-500">Pas de spam - uniquement les stratégies immobilières locales qui comptent.</p>
-              </div>
+              <NewsletterForm />
             </div>
           </section>
 

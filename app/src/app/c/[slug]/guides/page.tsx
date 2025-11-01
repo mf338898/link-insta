@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import GradualBlur from "@/components/GradualBlur";
+import PrivateAccessForm from "@/components/PrivateAccessForm";
 import { getContactBySlug } from "@/data/contacts";
 
 type AvailableGuide = {
@@ -11,7 +12,8 @@ type AvailableGuide = {
   description: string;
   price: string;
   ctaLabel: string;
-  ctaHref: string;
+  ctaHref?: string;
+  disabled?: boolean;
 };
 
 type LockedResource = {
@@ -27,21 +29,21 @@ const availableGuides: AvailableGuide[] = [
     id: "sell-guide",
     category: "Guide",
     title: "Vendre sereinement dans le Finistère",
-    status: "Disponible",
+    status: "Pré-lancement",
     description: "Préparer, estimer, éviter les erreurs, gérer les visites, sélectionner l'agent ou vendre seul.",
     price: "19€",
-    ctaLabel: "Accéder au guide",
-    ctaHref: "https://www.alvimmobilier.com/boutique",
+    ctaLabel: "Accès bloqué 🤫",
+    disabled: true,
   },
   {
     id: "perfect-checklist",
     category: "Checklist",
     title: "Dossier Vente Parfait",
-    status: "Disponible",
+    status: "Pré-lancement",
     description: "Tous les documents, étapes et contrôles avant mise en vente.",
     price: "15€",
-    ctaLabel: "Télécharger",
-    ctaHref: "https://www.alvimmobilier.com/boutique",
+    ctaLabel: "Accès bloqué 🤫",
+    disabled: true,
   },
 ];
 
@@ -124,16 +126,15 @@ export default async function PremiumGuidesPage(props: { params: Promise<{ slug:
               </Link>
             </div>
             <p className="max-w-2xl text-sm text-slate-500">
-              Guides pratiques, checklists & mini-formations pour vendeurs & investisseurs sérieux. Accès immédiat après paiement. Certains
-              contenus sont encore verrouillés 👇
+              Ressources sérieuses pour vendeurs & investisseurs. Accès progressif — certains contenus en pré-ouverture👇
             </p>
             <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.7)]">
-              <span className="rounded-full border border-[rgba(148,197,255,0.35)] bg-white/80 px-3 py-1">Positionnement premium</span>
+              <span className="rounded-full border border-[rgba(148,197,255,0.35)] bg-white/80 px-3 py-1">Qualité Pro</span>
               <span className="rounded-full border border-[rgba(16,185,129,0.3)] bg-[rgba(16,185,129,0.1)] text-emerald-600 px-3 py-1">
-                Catalogue en ouverture
+                Accès progressif
               </span>
               <span className="rounded-full border border-[rgba(252,211,77,0.35)] bg-[rgba(252,211,77,0.18)] text-amber-600 px-3 py-1">
-                FOMO assumée
+                Version Bêta
               </span>
             </div>
           </header>
@@ -141,7 +142,7 @@ export default async function PremiumGuidesPage(props: { params: Promise<{ slug:
           <section className="space-y-5">
             <header>
               <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">Guides disponibles</p>
-              <h2 className="text-xl font-semibold text-[color:var(--alv-navy)] sm:text-[24px]">Au lancement</h2>
+              <h2 className="text-xl font-semibold text-[color:var(--alv-navy)] sm:text-[24px]">Disponible prochainement — accès prioritaire sur liste</h2>
             </header>
             <div className="grid gap-4">
               {availableGuides.map((guide) => (
@@ -162,21 +163,38 @@ export default async function PremiumGuidesPage(props: { params: Promise<{ slug:
                       <h3 className="text-lg font-semibold sm:text-xl">{guide.title}</h3>
                       <p className="text-sm text-slate-500">{guide.description}</p>
                     </div>
-                    <div className="flex items-center gap-2 self-start rounded-2xl border border-[rgba(252,211,77,0.4)] bg-[rgba(252,211,77,0.18)] px-3 py-1.5 text-sm font-semibold text-amber-600">
+                    <div
+                      className={`flex items-center gap-2 self-start rounded-2xl border border-[rgba(252,211,77,0.4)] bg-[rgba(252,211,77,0.18)] px-3 py-1.5 text-sm font-semibold text-amber-600 ${
+                        guide.disabled ? "absolute right-6 top-6 -translate-y-10 opacity-0 pointer-events-none" : ""
+                      }`}
+                      aria-hidden={guide.disabled}
+                    >
                       <span>💸</span>
                       <span>{guide.price}</span>
                     </div>
                   </div>
                   <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-xs text-slate-400 sm:text-sm">Accès sécurisé + ressources téléchargeables immédiatement.</p>
-                    <Link
-                      href={guide.ctaHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-[color:var(--alv-navy)] via-[color:var(--alv-sky)] to-[color:var(--alv-emerald)] px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(15,23,42,0.24)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/60"
-                    >
-                      {guide.ctaLabel}
-                    </Link>
+                    <p className="text-xs text-slate-400 sm:text-sm">
+                      {guide.disabled ? "Accès verrouillé pour le moment. Rejoins la liste privée pour recevoir l'ouverture et l'offre de lancement." : "Accès sécurisé + ressources téléchargeables immédiatement."}
+                    </p>
+                    {guide.disabled ? (
+                      <button
+                        type="button"
+                        disabled
+                        className="inline-flex items-center justify-center rounded-2xl border border-[rgba(148,163,184,0.4)] bg-[rgba(148,163,184,0.18)] px-5 py-3 text-sm font-semibold text-[rgba(30,58,95,0.7)] shadow-[0_12px_28px_rgba(15,23,42,0.12)]"
+                      >
+                        {guide.ctaLabel}
+                      </button>
+                    ) : (
+                      <Link
+                        href={guide.ctaHref ?? "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-[color:var(--alv-navy)] via-[color:var(--alv-sky)] to-[color:var(--alv-emerald)] px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(15,23,42,0.24)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/60"
+                      >
+                        {guide.ctaLabel}
+                      </Link>
+                    )}
                   </div>
                 </article>
               ))}
@@ -235,46 +253,7 @@ export default async function PremiumGuidesPage(props: { params: Promise<{ slug:
             </div>
           </section>
 
-          <section
-            id="liste-privee"
-            className="relative overflow-hidden rounded-[32px] border border-[rgba(148,197,255,0.24)] bg-gradient-to-br from-white via-sky-50/85 to-emerald-50/80 px-6 py-8 shadow-[0_26px_55px_rgba(15,23,42,0.12)] sm:px-10 sm:py-10"
-          >
-            <div className="pointer-events-none absolute -right-20 -top-28 h-56 w-56 rounded-full bg-gradient-to-br from-emerald-200/45 via-sky-200/30 to-transparent blur-[90px]" aria-hidden="true" />
-            <div className="pointer-events-none absolute -bottom-24 -left-16 h-52 w-52 rounded-full bg-gradient-to-tr from-amber-200/40 via-rose-200/32 to-transparent blur-[80px]" aria-hidden="true" />
-            <div className="relative space-y-6">
-              <header className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">CTA exclusif</p>
-                <h2 className="text-xl font-semibold text-[color:var(--alv-navy)] sm:text-[24px]">⭐ Accès prioritaire + -10% sur futurs guides</h2>
-                <p className="text-sm text-slate-500 sm:max-w-xl">Inscris-toi pour être notifié des nouveaux contenus et promotions privées.</p>
-              </header>
-              <form
-                action="mailto:contact@alvimmobilier.bzh"
-                method="post"
-                encType="text/plain"
-                className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
-              >
-                <input type="hidden" name="Sujet" value="Liste privée guides premium" />
-                <label className="sr-only" htmlFor="email-guides">
-                  Adresse email
-                </label>
-                <input
-                  id="email-guides"
-                  name="Adresse"
-                  type="email"
-                  required
-                  placeholder="ton.email@exemple.fr"
-                  className="w-full rounded-2xl border border-[rgba(148,197,255,0.35)] bg-white/90 px-4 py-3 text-sm text-[color:var(--alv-navy)] shadow-[0_10px_24px_rgba(15,23,42,0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(96,165,216,0.55)]"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-[color:var(--alv-navy)] via-[color:var(--alv-sky)] to-[color:var(--alv-emerald)] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(15,23,42,0.24)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/60"
-                >
-                  Entrer mon email
-                </button>
-              </form>
-              <p className="text-xs text-slate-500">Tu recevras uniquement du contenu local utile - pas de spam.</p>
-            </div>
-          </section>
+          <PrivateAccessForm />
         </main>
       </div>
     </div>
