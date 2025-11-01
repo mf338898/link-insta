@@ -52,6 +52,7 @@ export default function InstagramRedirectBanner() {
   const handleOpenInBrowser = () => {
     if (typeof window === "undefined" || typeof navigator === "undefined") return;
     
+    
     const currentUrl = window.location.href;
     
     // Sur iOS, utiliser plusieurs techniques pour forcer l'ouverture externe
