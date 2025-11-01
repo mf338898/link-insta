@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "@/components/ProfileCard.css";
-import InstagramRedirectBanner from "@/components/InstagramRedirectBanner";
+import dynamic from "next/dynamic";
+
+const InstagramRedirectBanner = dynamic(() => import("@/components/InstagramRedirectBanner"), {
+  ssr: false,
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
