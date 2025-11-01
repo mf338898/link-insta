@@ -38,7 +38,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
   const { name, handle, title, status, avatarUrl, url } = contact;
   const displayHandle = handle ? (handle.startsWith("@") ? handle : `@${handle}`) : null;
   const avatarSrc = avatarUrl ?? "/images/avatars/matthis-profile.png";
-  const shareTitle = `${name} - Expert immobilier Finistère`;
+  const shareTitle = `${name} - Conseiller immobilier & investisseur local (Finistère)`;
   const fallbackAgencyUrl = "https://www.alvimmobilier.com";
   const agencyUrl = url ?? fallbackAgencyUrl;
   let agencyLabel = agencyUrl.replace(/^https?:\/\//, "");
@@ -50,9 +50,9 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
     {
       id: "submit-project",
       href: `/c/${slug}/submit-project`,
-      label: "💼 Déposer ton projet immobilier (Sélection)",
-      description: "Accès au questionnaire premium. Je traite seulement les projets sérieux & locaux.",
-      helper: "⏳ Temps : 2 minutes — dossier complet & filtrage des curieux",
+      label: "💼 Déposer votre projet immobilier (Sélection)",
+      description: "Accès au questionnaire premium. Ce formulaire me permet de comprendre votre projet en profondeur et d'évaluer comment je peux vous accompagner au mieux.",
+      helper: "Temps : environ 2 minutes - réponses complètes. Priorité aux projets du Finistère.",
       badge: "Sélection",
       badgeClass: "bg-[rgba(236,72,153,0.12)] text-rose-500",
       iconClass: "bg-[rgba(236,72,153,0.14)] text-rose-500",
@@ -70,7 +70,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
       id: "premium-guides",
       href: `/c/${slug}/guides`,
       label: "📚 Guides & Mini-formations (Premium)",
-      description: "Bibliothèque privée d'expert - teasing & accès immédiat aux contenus débloqués.",
+      description: "Bibliothèque privée d'expert - contenus débloqués progressivement.",
       helper: "Guides vendeurs, checklists, mini-formations. Accès progressif aux ressources.",
       badge: "Premium",
       badgeClass: "bg-[rgba(56,189,248,0.16)] text-sky-600",
@@ -89,7 +89,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
       href: "https://www.instagram.com/matthis_immobilier",
       label: "🎥 Conseils gratuits",
       description: "Reels, pédagogie terrain, transparence locale.",
-      helper: "Cas concrets & retours d'expérience.",
+      helper: "Cas concrets et retours d'expérience.",
       badge: "Instagram",
       badgeClass: "bg-[rgba(148,197,255,0.2)] text-[color:var(--alv-navy)]",
       iconClass: "bg-[rgba(236,72,153,0.12)] text-[color:var(--alv-navy)]",
@@ -259,8 +259,8 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
 
                 <div className="space-y-6">
                   <div className="space-y-3">
-                    <h1 className="text-3xl font-semibold leading-tight text-[color:var(--alv-navy)] sm:text-4xl">🏡 Conseiller immobilier & investisseur local - Finistère</h1>
-                    <p className="text-lg font-medium text-slate-600 sm:text-xl">J'accompagne les familles et les investisseurs avec méthode et transparence.</p>
+                    <h1 className="text-3xl font-semibold leading-tight text-[color:var(--alv-navy)] sm:text-4xl">Conseiller immobilier & investisseur local - Finistère</h1>
+                    <p className="text-lg font-medium text-slate-600 sm:text-xl">J'aide les familles et les investisseurs avec méthode et transparence.</p>
                     <p className="text-sm font-semibold text-emerald-600 sm:text-base">Accompagnement personnalisé et rigoureux.</p>
                   </div>
                   <div className="space-y-3 text-sm leading-relaxed text-slate-600 sm:text-base">
@@ -269,6 +269,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                     <p>C'est là que j'ai appris deux choses essentielles : rien n'est acquis, et on peut toujours reconstruire, pierre par pierre.</p>
                     <p>En 2021, j'ai choisi la Bretagne pour écrire mon propre chapitre. J'y ai trouvé ce que je cherchais : de l'authenticité, du sens et la possibilité de bâtir.</p>
                     <p>Aujourd'hui, j'accompagne les projets immobiliers avec cette même philosophie : prendre le temps, faire les choses bien, et avancer avec sérieux, humanité et clarté.</p>
+                    <p className="text-sm font-semibold text-[color:var(--alv-navy)] sm:text-base">Je ne vends pas des biens - j'accompagne des décisions de vie.</p>
                   </div>
                   <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[rgba(30,58,95,0.7)]">
                     <span className="rounded-full bg-[rgba(148,197,255,0.18)] px-3 py-1 text-[color:var(--alv-navy)]">Pleyben</span>
@@ -284,9 +285,9 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
             <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">Actions immédiates</p>
-                <h2 className="text-2xl font-semibold text-[color:var(--alv-navy)] sm:text-[26px]">Choisis le canal qui correspond à ton besoin</h2>
+                <h2 className="text-2xl font-semibold text-[color:var(--alv-navy)] sm:text-[26px]">Choisissez le canal qui correspond à votre besoin</h2>
               </div>
-              <p className="text-xs text-slate-500 sm:text-sm">Priorité aux vendeurs & investisseurs du Finistère.</p>
+              <p className="text-xs text-slate-500 sm:text-sm">Priorité aux vendeurs et investisseurs du Finistère.</p>
             </header>
 
             <div className="grid gap-4">
@@ -370,7 +371,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">Vision long terme</p>
                 <h2 className="text-2xl font-semibold text-[color:var(--alv-navy)] sm:text-[26px]">Boutons verrouillés - encore un peu de patience</h2>
               </div>
-              <p className="text-xs text-slate-500 sm:text-sm">Ces ressources sont en cours de création — merci pour votre patience.</p>
+              <p className="text-xs text-slate-500 sm:text-sm">Ces ressources sont en cours de création - merci pour votre patience.</p>
             </header>
             <div className="grid gap-4">
               {lockedActions.map((item) => (

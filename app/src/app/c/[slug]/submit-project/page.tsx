@@ -14,7 +14,7 @@ const heroHighlights = [
   {
     label: "⏱️ Durée",
     value: "≈ 2 minutes",
-    detail: "Tu prends le temps de poser un dossier clair.",
+    detail: "Vous prenez le temps de poser un dossier clair.",
   },
   {
     label: "🎯 Réponse",
@@ -31,15 +31,15 @@ const heroHighlights = [
 const valuePoints = [
   {
     title: "Filtrer les curieux",
-    content: "Sans infos concrètes, je ne prends pas le dossier. Tu montres ta motivation.",
+    content: "Sans informations concrètes, je ne prends pas le dossier. Vous montrez votre motivation.",
   },
   {
     title: "Dossier complet",
-    content: "Tu arrives avec un brief précis : projet, timing, chiffres. Je gagne du temps, toi aussi.",
+    content: "Vous arrivez avec un brief précis : projet, timing, chiffres. Je gagne du temps, vous aussi.",
   },
   {
     title: "Position premium",
-    content: "Ton projet est traité avec méthode. Pas de pitch commercial, juste de l'expertise locale.",
+    content: "Votre projet est traité avec méthode. Pas de pitch commercial, juste de l'expertise locale.",
   },
 ];
 
@@ -52,9 +52,9 @@ export async function generateMetadata(props: PageProps) {
     };
   }
   return {
-    title: `Déposer ton projet immobilier — Sélection | ${contact.name}`,
+    title: `Déposer votre projet immobilier — Sélection | ${contact.name}`,
     description:
-      "Questionnaire premium pour filtrer les curieux, qualifier ton projet local et préparer une collaboration sérieuse.",
+      "Questionnaire premium pour filtrer les curieux, qualifier votre projet local et préparer une collaboration sérieuse.",
   };
 }
 
@@ -116,13 +116,13 @@ export default async function SubmitProjectPage(props: PageProps) {
                     )}
                   </div>
                   <h1 className="text-3xl font-semibold leading-tight text-[color:var(--alv-navy)] sm:text-[40px]">
-                    Déposer ton projet immobilier — Sélection
+                    Déposer votre projet immobilier — Sélection
                   </h1>
                   <p className="text-lg font-medium text-slate-600 sm:text-xl">
                     Pour propriétaires & investisseurs sérieux dans le Finistère.
                   </p>
                   <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
-                    Ce questionnaire me permet de comprendre ton projet et de vérifier que je peux réellement t'aider. Mon rôle : trier, challenger et accompagner peu de dossiers mais des dossiers solides. Tu es entre de bonnes mains, mais la sélection est réelle.
+                    Ce questionnaire me permet de comprendre votre projet et de vérifier que je peux réellement vous aider. Mon rôle : trier, challenger et accompagner peu de dossiers mais des dossiers solides. Vous êtes entre de bonnes mains, mais la sélection est réelle.
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-3">
@@ -166,10 +166,10 @@ export default async function SubmitProjectPage(props: PageProps) {
                   Pourquoi ce format ?
                 </p>
                 <h2 className="mt-2 text-2xl font-semibold text-[color:var(--alv-navy)] sm:text-[30px]">
-                  On met ton temps et le mien au bon endroit
+                  Mettons votre temps et le mien au bon endroit
                 </h2>
                 <p className="mt-2 text-sm text-slate-600 sm:text-base">
-                  Ce formulaire te permet de filtrer 80% des curieux, me transmettre un dossier complet dès l'entrée, démarrer sur une posture d'expertise, collecter les infos essentielles (valeur, motivation, budget) et nourrir ta base CRM.
+                  Ce formulaire vous permet de filtrer 80% des curieux, me transmettre un dossier complet dès l'entrée, démarrer sur une posture d'expertise, collecter les informations essentielles (valeur, motivation, budget) et nourrir votre base CRM.
                 </p>
               </header>
 

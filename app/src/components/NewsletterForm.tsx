@@ -78,7 +78,7 @@ export default function NewsletterForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            placeholder="ton.email@exemple.fr"
+            placeholder="votre.email@exemple.fr"
             className="w-full rounded-2xl border border-[rgba(148,197,255,0.35)] bg-white/90 px-4 py-3 text-sm text-[color:var(--alv-navy)] shadow-[0_10px_24px_rgba(15,23,42,0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(96,165,216,0.55)]"
             disabled={isSubmitting}
           />
