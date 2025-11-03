@@ -57,7 +57,7 @@ export default function InstagramBrowserBanner() {
     const inInstagram = isInstagramInAppBrowser(userAgent);
 
     const isStandalone =
-      (window.navigator as Navigator & { standalone?: boolean })?.standalone ?? false ||
+      ((window.navigator as Navigator & { standalone?: boolean })?.standalone ?? false) ||
       window.matchMedia("(display-mode: standalone)").matches;
 
     if (inInstagram && !isStandalone) {
