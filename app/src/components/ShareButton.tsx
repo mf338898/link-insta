@@ -8,9 +8,10 @@ type Props = {
   text?: string;
   url?: string;
   className?: string;
+  label?: string;
 };
 
-export default function ShareButton({ title, text, url, className }: Props) {
+export default function ShareButton({ title, text, url, className, label }: Props) {
   async function handleShare() {
     const shareUrl = url ?? (typeof window !== "undefined" ? window.location.href : "");
     const shareData: ShareData = {
@@ -48,8 +49,7 @@ export default function ShareButton({ title, text, url, className }: Props) {
         "rounded-full border px-4 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
       }
     >
-      <ShinyText text="Partager ma carte" speed={6} />
+      <ShinyText text={label ?? "Partager ma carte"} speed={6} />
     </button>
   );
 }
-
