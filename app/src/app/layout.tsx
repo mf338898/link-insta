@@ -29,8 +29,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center">
-          <ScrollHint />
+        <div className="pointer-events-none fixed right-6 top-1/2 z-50 -translate-y-1/2">
+          <ScrollHint className="items-end text-right" />
         </div>
         {children}
       </body>
