@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "@/components/ProfileCard.css";
-import InstagramBrowserBanner from "@/components/InstagramBrowserBanner";
+import ScrollHint from "@/components/ScrollHint";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +29,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <InstagramBrowserBanner />
+        <div className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center">
+          <ScrollHint />
+        </div>
         {children}
       </body>
     </html>

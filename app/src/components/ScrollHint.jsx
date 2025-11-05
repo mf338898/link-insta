@@ -19,35 +19,33 @@ export default function ScrollHint({ className = "" }) {
   if (!visible) return null;
 
   return (
-    <div
-      className={`${className} pointer-events-none select-none inline-flex flex-col items-center gap-3 text-foreground/80`}
-      aria-hidden
-    >
-      <div className="relative h-12 w-14 rounded-full border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl shadow-lg">
-        <span className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-gradient-to-br from-blue-400 to-emerald-400 animate-[hint-dot_2s_ease-in-out_infinite] shadow-sm" />
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 to-emerald-500/20 animate-[hint-pulse_2s_ease-in-out_infinite]" />
-      </div>
-      <div className="text-[11px] font-medium opacity-80 animate-[hint-fade_2s_ease-in-out_infinite] tracking-wide">
+    <div className={`${className} pointer-events-none select-none inline-flex flex-col items-center gap-2`} aria-hidden>
+      <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-foreground/70 animate-[hint-text_2.4s_ease-in-out_infinite]">
         Faites défiler
-      </div>
+      </span>
+      <span className="flex flex-col items-center gap-1 text-foreground/60">
+        <span className="block h-2 w-px rounded-full bg-current" />
+        <span className="block h-2 w-px rounded-full bg-current" />
+        <svg
+          viewBox="0 0 18 10"
+          className="h-2.5 w-4 animate-[hint-arrow_2.4s_ease-in-out_infinite]"
+          aria-hidden="true"
+        >
+          <path d="M1 1.5 9 8.5 17 1.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </svg>
+      </span>
       <style>{`
-        @keyframes hint-dot {
-          0% { transform: translate(-50%, 3px); opacity: .3; scale: 0.8 }
-          30% { opacity: 1; scale: 1.1 }
-          60% { transform: translate(-50%, 25px); opacity: .3; scale: 0.8 }
-          100% { transform: translate(-50%, 3px); opacity: .3; scale: 0.8 }
+        @keyframes hint-text {
+          0%, 100% { opacity: 0.4; transform: translateY(0); }
+          50% { opacity: 1; transform: translateY(-2px); }
         }
-        @keyframes hint-pulse {
-          0%, 100% { opacity: 0.2; scale: 1 }
-          50% { opacity: 0.6; scale: 1.1 }
-        }
-        @keyframes hint-fade { 
-          0%, 100% { opacity: .6; transform: translateY(0px) } 
-          50% { opacity: 1; transform: translateY(-2px) } 
+        @keyframes hint-arrow {
+          0%, 100% { opacity: 0.35; transform: translateY(0); }
+          45% { opacity: 1; transform: translateY(3px); }
+          75% { opacity: 0.5; transform: translateY(6px); }
         }
       `}</style>
     </div>
   );
 }
-
 
