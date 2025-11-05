@@ -18,9 +18,9 @@ const contacts: Record<string, Contact> = {
   matthis: {
     slug: "matthis",
     name: "Matthis Foveau",
-    title: "Expert immobilier & investisseur local",
+    title: "Conseiller immobilier & investisseur local",
     handle: "matthis_immobilier",
-    status: "Sélection limitée",
+    status: "Accompagnement personnalisé et rigoureux",
     avatarUrl: "/images/avatars/matthis-pro.jpg",
     miniAvatarUrl: "/images/avatars/profile-solid.png",
     phone: "+33748944694",
