@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import "@/components/ProfileCard.css";
 import ScrollHint from "@/components/ScrollHint";
@@ -33,6 +34,7 @@ export default function RootLayout({
           <ScrollHint className="items-end text-right" />
         </div>
         {children}
+        <Analytics />
       </body>
     </html>
   );

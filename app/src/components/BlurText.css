@@ -1,0 +1,14 @@
+.blur-text {
+  position: relative;
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(8px);
+  transition: opacity 0.65s ease, filter 0.65s ease, transform 0.65s ease;
+}
+
+.blur-text-visible {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0px);
+}

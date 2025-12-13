@@ -1,0 +1,58 @@
+.subtle-grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(148, 197, 255, 0.16), transparent 32%),
+    radial-gradient(circle at 78% 18%, rgba(52, 211, 153, 0.12), transparent 34%),
+    radial-gradient(circle at 40% 82%, rgba(251, 191, 36, 0.12), transparent 36%);
+  overflow: hidden;
+}
+
+.subtle-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-size: 160px 160px;
+  background-image:
+    linear-gradient(
+      rgba(148, 197, 255, 0.08) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(148, 197, 255, 0.08) 1px,
+      transparent 1px
+    );
+  mask-image: radial-gradient(circle at 50% 40%, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+  animation: grid-drift 22s linear infinite;
+}
+
+.subtle-grid-noise {
+  position: absolute;
+  inset: -10%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  opacity: 0.7;
+  animation: noise-shift 10s steps(3, end) infinite;
+}
+
+@keyframes grid-drift {
+  from {
+    transform: translate3d(0px, 0px, 0);
+  }
+  to {
+    transform: translate3d(-40px, -30px, 0);
+  }
+}
+
+@keyframes noise-shift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(8px, -6px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
