@@ -1,25 +1,31 @@
 'use client';
 
-import type { JSX } from "react";
+import type {
+  ComponentPropsWithoutRef,
+  ElementType,
+  JSX,
+  Ref,
+} from "react";
 import { useEffect, useRef } from "react";
 
 import "./BlurText.css";
 
-type BlurTextProps<T extends keyof JSX.IntrinsicElements = "div"> = {
+type BlurTextProps<T extends ElementType = "div"> = {
   text: string;
   as?: T;
   className?: string;
   delay?: number;
-};
+} & Omit<ComponentPropsWithoutRef<T>, "as" | "className" | "children">;
 
-export default function BlurText<T extends keyof JSX.IntrinsicElements = "div">({
+export default function BlurText<T extends ElementType = "div">({
   text,
   as,
   className,
   delay = 0,
+  ...props
 }: BlurTextProps<T>) {
   const ref = useRef<HTMLElement | null>(null);
-  const Component = (as ?? "div") as T;
+  const Component = (as ?? "div") as ElementType;
 
   useEffect(() => {
     const node = ref.current;
@@ -43,9 +49,10 @@ export default function BlurText<T extends keyof JSX.IntrinsicElements = "div">(
 
   return (
     <Component
-      ref={ref as any}
+      ref={ref as Ref<any>}
       className={`blur-text ${className ?? ""}`}
       style={{ transitionDelay: `${delay}ms` }}
+      {...props}
     >
       {text}
     </Component>
