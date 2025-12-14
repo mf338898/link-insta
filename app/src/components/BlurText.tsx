@@ -40,7 +40,7 @@ export default function BlurText<T extends ElementType = "div">({
           }
         });
       },
-      { threshold: 0.22 }
+      { threshold: 0.16 }
     );
 
     observer.observe(node);

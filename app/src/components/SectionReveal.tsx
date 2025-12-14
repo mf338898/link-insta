@@ -40,7 +40,7 @@ export default function SectionReveal<T extends ElementType = "div">({
           }
         });
       },
-      { threshold: 0.18 }
+      { threshold: 0.12 }
     );
 
     observer.observe(node);
