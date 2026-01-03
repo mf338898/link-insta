@@ -152,11 +152,8 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
         <main className="w-full max-w-4xl space-y-10 pb-10 sm:space-y-12 sm:pb-16">
           <SectionReveal
             as="section"
-            className="relative overflow-hidden rounded-[36px] border border-[rgba(148,197,255,0.24)] bg-white/96 px-6 py-8 shadow-[0_18px_42px_rgba(15,23,42,0.1)] backdrop-blur-xl sm:px-10 sm:py-12"
+            className="relative px-4 py-8 sm:px-8 sm:py-12"
           >
-            <div className="pointer-events-none absolute -left-28 top-0 h-64 w-64 rounded-full bg-gradient-to-br from-amber-200/45 via-rose-200/35 to-transparent blur-[110px]" />
-            <div className="pointer-events-none absolute -right-20 bottom-0 h-56 w-56 rounded-full bg-gradient-to-tl from-sky-200/45 via-emerald-200/30 to-transparent blur-[120px]" />
-
             <div className="relative flex flex-col gap-8">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.7)]">
@@ -178,7 +175,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-6 rounded-3xl border border-[rgba(148,197,255,0.24)] bg-white/94 p-6 text-center shadow-[0_16px_34px_rgba(15,23,42,0.1)] sm:p-8">
+              <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
                 <ReflectiveCard
                   name={name ?? "Matthis Foveau"}
                   title={displayTitle}
@@ -190,7 +187,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
                   idValue="Pleyben · Quimper · Brest"
                   className="w-full max-w-[360px] sm:max-w-[380px]"
                 />
-                <div className="flex w-full flex-col items-center gap-4 sm:max-w-[320px]">
+                <div className="flex w-full max-w-[320px] flex-col items-center gap-4 text-center sm:items-start sm:text-left">
                   <div className="w-full max-w-[240px] sm:max-w-[260px]">
                     <Image
                       src="/images/logo/alv-immobilier.svg"
@@ -249,10 +246,8 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
 
           <SectionReveal
             as="section"
-            className="relative overflow-hidden rounded-[32px] border border-[rgba(148,197,255,0.24)] bg-gradient-to-br from-white via-sky-50/85 to-emerald-50/80 px-6 py-8 shadow-[0_26px_55px_rgba(15,23,42,0.12)]"
+            className="relative px-4 py-8 sm:px-8 sm:py-10"
           >
-            <div className="pointer-events-none absolute -right-20 -top-28 h-60 w-60 rounded-full bg-gradient-to-br from-emerald-200/45 via-sky-200/30 to-transparent blur-[100px]" aria-hidden="true" />
-            <div className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-gradient-to-tr from-amber-200/40 via-rose-200/32 to-transparent blur-[90px]" aria-hidden="true" />
             <div className="relative space-y-6">
               <header className="space-y-2">
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">Signature</p>
@@ -279,10 +274,8 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
           {/* Section : Mes autres projets & liens utiles */}
           <SectionReveal
             as="section"
-            className="relative overflow-hidden rounded-[32px] border border-[rgba(148,197,255,0.22)] bg-white/92 px-6 py-8 shadow-[0_22px_48px_rgba(15,23,42,0.12)]"
+            className="relative px-4 py-8 sm:px-8 sm:py-10"
           >
-            <div className="pointer-events-none absolute -left-16 top-0 h-52 w-52 rounded-full bg-gradient-to-br from-sky-200/45 via-emerald-200/30 to-transparent blur-[95px]" aria-hidden="true" />
-            <div className="pointer-events-none absolute -right-12 bottom-0 h-48 w-48 rounded-full bg-gradient-to-tl from-amber-200/38 via-rose-200/24 to-transparent blur-[90px]" aria-hidden="true" />
             <div className="relative space-y-8">
               <header className="space-y-3 text-center">
                 <BlurText
@@ -349,7 +342,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
 
           <SectionReveal
             as="footer"
-            className="flex flex-col gap-4 rounded-3xl border border-[rgba(148,197,255,0.24)] bg-white/85 px-6 py-6 text-[color:var(--alv-navy)] shadow-[0_18px_40px_rgba(15,23,42,0.12)] sm:flex-row sm:items-center sm:justify-between"
+            className="flex flex-col gap-4 px-4 py-6 text-[color:var(--alv-navy)] sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-6"
           >
             <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">Liens directs</p>
