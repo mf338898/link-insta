@@ -30,8 +30,7 @@ type EstimationStarterProps = {
 
 export default function EstimationStarter({ pageSource = "hub_matthis" }: EstimationStarterProps) {
   const searchParams = useSearchParams();
-  const searchParamsKey = searchParams.toString();
-  const utmValues = useMemo(() => collectUtms(searchParams), [searchParams, searchParamsKey]);
+  const utmValues = useMemo(() => collectUtms(searchParams), [searchParams]);
   const device = useDeviceType();
   const hasStartedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement | null>(null);

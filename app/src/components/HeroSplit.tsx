@@ -77,13 +77,9 @@ export default function HeroSplit({
   proCard,
 }: HeroSplitProps) {
   const searchParams = useSearchParams();
-  const searchParamsKey = searchParams.toString();
 
-  const utmValues = useMemo(() => collectUtms(searchParams), [searchParams, searchParamsKey]);
-  const estimationHref = useMemo(
-    () => buildEstimationHref(searchParams, estimationBaseUrl),
-    [searchParams, searchParamsKey, estimationBaseUrl]
-  );
+  const utmValues = useMemo(() => collectUtms(searchParams), [searchParams]);
+  const estimationHref = useMemo(() => buildEstimationHref(searchParams, estimationBaseUrl), [searchParams, estimationBaseUrl]);
 
   const device = useDeviceType();
   const [isMapOpen, setIsMapOpen] = useState(false);

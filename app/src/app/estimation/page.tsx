@@ -8,6 +8,8 @@ export const metadata = {
   description: "Démarrer une estimation offerte (~40 km autour de Pleyben). Réponse sous 24 h ouvrées.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function EstimationPage() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background text-foreground">
