@@ -9,6 +9,8 @@ import SubtleGridBackground from "@/components/SubtleGridBackground";
 import { Button } from "@/components/ui/button";
 import BlurText from "@/components/BlurText";
 
+export const dynamic = "force-dynamic";
+
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
 type VideoItem = {
