@@ -1,6 +1,9 @@
 {
   "version": 2,
   "builds": [
-    { "src": "app/next.config.ts", "use": "@vercel/next" }
-  ]
+    { "src": "app/package.json", "use": "@vercel/next" }
+  ],
+  "installCommand": "cd app && npm install",
+  "buildCommand": "cd app && npm run build",
+  "outputDirectory": "app/.next"
 }
