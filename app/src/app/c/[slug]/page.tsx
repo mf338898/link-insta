@@ -124,7 +124,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
       id: "site",
       label: "Site agence",
       href: agencyUrl,
-      note: agencyLabel,
+      note: "À vos côtés depuis plus de 20 ans",
     },
     {
       id: "linkedin",

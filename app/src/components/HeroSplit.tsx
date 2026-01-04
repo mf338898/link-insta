@@ -1,6 +1,7 @@
 'use client';
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams, type ReadonlyURLSearchParams } from "next/navigation";
 
@@ -113,7 +114,7 @@ export default function HeroSplit({
   }, [isMapOpen]);
 
   const handleEstimationClick = () => {
-    sendEvent("cta_estimation_click", {
+    sendEvent("hero_cta_estimation_click", {
       cta_label: estimationLabel,
       destination: estimationHref,
     });
@@ -131,15 +132,38 @@ export default function HeroSplit({
   };
 
   const handleSecondaryClick = () => {
-    sendEvent("cta_contact_click", {
+    sendEvent("hero_cta_biens_click", {
       cta_label: secondaryLabel,
       destination: secondaryHref,
     });
   };
 
+  const handleMapOpen = () => {
+    setIsMapOpen(true);
+    sendEvent("hero_sector_map_open");
+  };
+
+  const handleFormationClick = () => {
+    sendEvent("hero_cta_formation_click", {
+      destination: "/formation",
+    });
+  };
+
+  const handleProCardInstagramClick = () => {
+    sendEvent("hero_cardpro_instagram_click", {
+      destination: proCard?.handleHref || "",
+    });
+  };
+
+  const handleProCardAgencyClick = () => {
+    sendEvent("hero_cardpro_agence_click", {
+      destination: agencyUrl || "",
+    });
+  };
+
   return (
     <section className="relative">
-      <div className="grid min-h-[72vh] gap-8 px-5 py-8 sm:px-8 sm:py-12 lg:grid-cols-[1.05fr_1fr] lg:px-12">
+      <div className="grid min-h-[72vh] gap-8 px-5 py-8 sm:px-8 sm:py-12 lg:grid-cols-[3fr_2fr] lg:px-12">
         <div className="flex flex-col justify-center gap-6">
           <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-[rgba(30,58,95,0.7)]">
             <span className="rounded-full border border-[rgba(148,197,255,0.35)] bg-white/80 px-3 py-1">Bretagne</span>
@@ -157,40 +181,7 @@ export default function HeroSplit({
             </p>
           </div>
 
-          <ul className="grid gap-3 text-sm text-[color:var(--alv-navy)] sm:grid-cols-2 sm:text-base">
-            <li className="flex items-center gap-2 rounded-2xl border border-[rgba(148,197,255,0.32)] bg-white/90 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.06)]">
-              <span className="text-lg">✅</span>
-              Offerte, sans engagement
-            </li>
-            <li className="flex items-center gap-2 rounded-2xl border border-[rgba(148,197,255,0.32)] bg-white/90 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.06)]">
-              <span className="text-lg">📊</span>
-              Basée sur le marché local + comparables
-            </li>
-            <li className="flex items-center gap-2 rounded-2xl border border-[rgba(148,197,255,0.32)] bg-white/90 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.06)] sm:col-span-2">
-              <span className="text-lg">🔒</span>
-              Données confidentielles (non revendues)
-            </li>
-          </ul>
-
-          <div className="flex flex-col gap-4 text-sm text-slate-700">
-            <div className="flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.26em] text-[rgba(30,58,95,0.7)]">
-              <span className="rounded-full border border-[rgba(148,197,255,0.32)] bg-white/85 px-3 py-1">Conseiller immobilier — ALV Immobilier</span>
-              <span className="rounded-full border border-[rgba(148,197,255,0.32)] bg-white/85 px-3 py-1">
-                Zone couverte : ~40 km autour de Pleyben (certaines communes exclues)
-              </span>
-            </div>
-            <p className="text-sm text-slate-600">
-              Vérification de votre commune à l’étape 1 (2 min).{" "}
-              <button
-                type="button"
-                onClick={() => setIsMapOpen(true)}
-                className="font-semibold text-[color:var(--alv-navy)] underline decoration-dashed decoration-1 underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[rgba(148,197,255,0.35)]"
-              >
-                Voir la carte du secteur
-              </button>
-            </p>
-          </div>
-
+          {/* CTA principal - visible tôt sur mobile pour être sur le premier écran */}
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button
               as="a"
@@ -224,6 +215,40 @@ export default function HeroSplit({
               </svg>
             </Button>
           </div>
+
+          <ul className="grid gap-3 text-sm text-[color:var(--alv-navy)] sm:grid-cols-2 sm:text-base">
+            <li className="flex items-center gap-2 rounded-2xl border border-[rgba(148,197,255,0.32)] bg-white/90 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.06)]">
+              <span className="text-lg">✅</span>
+              Offerte, sans engagement
+            </li>
+            <li className="flex items-center gap-2 rounded-2xl border border-[rgba(148,197,255,0.32)] bg-white/90 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.06)]">
+              <span className="text-lg">📊</span>
+              Basée sur le marché local + comparables
+            </li>
+            <li className="flex items-center gap-2 rounded-2xl border border-[rgba(148,197,255,0.32)] bg-white/90 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.06)] sm:col-span-2">
+              <span className="text-lg">🔒</span>
+              Données confidentielles (non revendues)
+            </li>
+          </ul>
+
+          <div className="flex flex-col gap-4 text-sm text-slate-700">
+            <div className="flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.26em] text-[rgba(30,58,95,0.7)]">
+              <span className="rounded-full border border-[rgba(148,197,255,0.32)] bg-white/85 px-3 py-1">Conseiller immobilier — ALV Immobilier</span>
+              <span className="rounded-full border border-[rgba(148,197,255,0.32)] bg-white/85 px-3 py-1">
+                Zone couverte : ~40 km autour de Pleyben (certaines communes exclues)
+              </span>
+            </div>
+            <p className="text-sm text-slate-600">
+              Vérification de votre commune à l'étape 1 (2 min).{" "}
+              <button
+                type="button"
+                onClick={handleMapOpen}
+                className="font-semibold text-[color:var(--alv-navy)] underline decoration-dashed decoration-1 underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[rgba(148,197,255,0.35)]"
+              >
+                Voir la carte du secteur
+              </button>
+            </p>
+          </div>
         </div>
 
         <div className="relative flex items-center justify-center">
@@ -236,65 +261,98 @@ export default function HeroSplit({
                   status={proCard.status}
                   handle={proCard.handle ?? undefined}
                   handleHref={proCard.handleHref}
+                  onHandleClick={handleProCardInstagramClick}
                   imageSrc={proCard.imageSrc}
                   idLabel={proCard.idLabel}
                   idValue={proCard.idValue}
                   className="w-full"
                 />
                 <div className="flex items-center gap-3">
-                  <div className="w-[120px] sm:w-[140px]">
-                    <Image
-                      src="/images/logo/alv-immobilier.svg"
-                      alt="ALV Immobilier"
-                      width={140}
-                      height={56}
-                      className="h-auto w-full"
-                      sizes="(max-width: 640px) 120px, 140px"
-                    />
-                  </div>
-                  <p className="text-sm text-slate-500">{agencyLabel}</p>
+                  {agencyUrl && (
+                    <Link
+                      href={agencyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleProCardAgencyClick}
+                      className="flex items-center gap-3 transition-opacity hover:opacity-80"
+                    >
+                      <div className="w-[120px] sm:w-[140px]">
+                        <Image
+                          src="/images/logo/alv-immobilier.svg"
+                          alt="ALV Immobilier"
+                          width={140}
+                          height={56}
+                          className="h-auto w-full"
+                          sizes="(max-width: 640px) 120px, 140px"
+                        />
+                      </div>
+                      <p className="text-sm text-slate-500">À vos côtés depuis plus de 20 ans</p>
+                    </Link>
+                  )}
+                  {!agencyUrl && (
+                    <>
+                      <div className="w-[120px] sm:w-[140px]">
+                        <Image
+                          src="/images/logo/alv-immobilier.svg"
+                          alt="ALV Immobilier"
+                          width={140}
+                          height={56}
+                          className="h-auto w-full"
+                          sizes="(max-width: 640px) 120px, 140px"
+                        />
+                      </div>
+                      <p className="text-sm text-slate-500">À vos côtés depuis plus de 20 ans</p>
+                    </>
+                  )}
                 </div>
               </div>
             )}
 
             <div className="relative overflow-hidden rounded-3xl border border-[rgba(148,197,255,0.34)] bg-gradient-to-b from-white/95 via-[rgba(239,246,255,0.95)] to-white p-6 shadow-[0_18px_42px_rgba(15,23,42,0.14)]">
-              <div className="absolute right-4 top-4 rounded-full border border-emerald-200 bg-white/90 px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm">
-                Confidentiel
+              <div className="absolute right-4 top-4 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm">
+                Bientôt disponible
               </div>
 
               <div className="space-y-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[rgba(30,58,95,0.7)]">
-                  Démarrer une estimation
+                  Formation
                 </p>
-                <h3 className="text-2xl font-semibold text-[color:var(--alv-navy)] sm:text-[26px]">Démarrer en 2 minutes</h3>
-                <p className="text-sm text-slate-600">Réponse sous 24 h ouvrées</p>
+                <h3 className="text-2xl font-semibold text-[color:var(--alv-navy)] sm:text-[26px]">
+                  Formation — Le Carré de la Rentabilité
+                </h3>
+                <p className="text-sm text-slate-600">
+                  La formation est en préparation. Les vidéos seront accessibles ici (lecture sur le site) et sur YouTube.
+                </p>
 
-                <div className="grid gap-3 rounded-2xl border border-[rgba(148,197,255,0.28)] bg-white/90 p-4 text-[color:var(--alv-navy)] shadow-inner">
-                  {[
-                    { step: "1", label: "Bien", description: "Type, surface, localisation" },
-                    { step: "2", label: "Projet", description: "Délais, intentions, contraintes" },
-                    { step: "3", label: "Coordonnées", description: "Pour vous répondre rapidement" },
-                  ].map((item) => (
-                    <div key={item.step} className="flex items-start gap-3">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[rgba(148,197,255,0.16)] text-sm font-semibold text-[color:var(--alv-navy)]">
-                        {item.step}
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold">{item.label}</p>
-                        <p className="text-xs text-slate-600">{item.description}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div
+                  className="relative h-32 w-full overflow-hidden rounded-2xl border border-[rgba(148,197,255,0.28)] bg-cover bg-center flex items-center justify-center"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.86)), url('/images/formation/photo-formation.jpg')",
+                    backgroundSize: "106%",
+                    backgroundPosition: "center 28%",
+                  }}
+                >
+                  <div className="absolute inset-0 backdrop-blur-[2px]" aria-hidden="true" />
+                  <div className="relative text-center space-y-2">
+                    <div className="text-4xl">🚧</div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">En construction</p>
+                  </div>
                 </div>
 
                 <Button
                   as="a"
-                  href={estimationHref}
-                  onClick={handleEstimationClick}
+                  href="/formation"
+                  onClick={handleFormationClick}
+                  variant="outline"
                   size="lg"
                   className="w-full justify-center gap-2 text-base"
                 >
-                  Estimer mon bien
+                  Accéder à la formation
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 17L17 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M9 7H17V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
                 </Button>
               </div>
             </div>

@@ -6,6 +6,7 @@ type ReflectiveCardProps = {
   status?: string;
   handle?: string | null;
   handleHref?: string;
+  onHandleClick?: () => void;
   idLabel?: string;
   idValue?: string;
   imageSrc?: string;
@@ -21,6 +22,7 @@ export default function ReflectiveCard({
   status,
   handle,
   handleHref,
+  onHandleClick,
   idLabel = "Finistère — ALV Immobilier",
   idValue = "Pleyben · Quimper · Brest",
   imageSrc = "/images/avatars/matthis-profile.png",
@@ -77,6 +79,7 @@ export default function ReflectiveCard({
               href={handleHref ?? "#"}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={onHandleClick}
               className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-3.5 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] sm:tracking-[0.18em] text-[color:var(--alv-navy,#111827)] shadow-[0_12px_26px_rgba(15,23,42,0.16)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(15,23,42,0.2)]"
             >
               <Instagram size={14} className="opacity-80" />
