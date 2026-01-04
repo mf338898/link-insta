@@ -1,15 +1,13 @@
 'use client';
 
 import Link from "next/link";
-import { useEffect, useCallback, useMemo } from "react";
+import { Suspense, useEffect, useCallback, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import GradualBlur from "@/components/GradualBlur";
 import SectionReveal from "@/components/SectionReveal";
 import SubtleGridBackground from "@/components/SubtleGridBackground";
 import { Button } from "@/components/ui/button";
 import BlurText from "@/components/BlurText";
-
-export const dynamic = "force-dynamic";
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
@@ -127,7 +125,7 @@ function useDeviceType() {
   return window.innerWidth < 768 ? "mobile" : "desktop";
 }
 
-export default function FormationPage() {
+function FormationContent() {
   const searchParams = useSearchParams();
   const utmValues = useMemo(() => collectUtms(searchParams), [searchParams]);
   const device = useDeviceType();
@@ -158,21 +156,7 @@ export default function FormationPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-background text-foreground">
-      <SubtleGridBackground />
-      <div className="relative z-10 flex min-h-screen flex-col items-center gap-6 p-4 sm:p-6">
-        <GradualBlur
-          position="bottom"
-          target="page"
-          strength={2.2}
-          divCount={5}
-          exponential
-          opacity={1}
-          className="pointer-events-none w-full"
-          style={{ height: "6rem" }}
-        />
-
-        <main className="w-full max-w-5xl space-y-10 pb-10 sm:space-y-12 sm:pb-16 lg:max-w-6xl">
+    <main className="w-full max-w-5xl space-y-10 pb-10 sm:space-y-12 sm:pb-16 lg:max-w-6xl">
           <SectionReveal
             as="section"
             className="relative flex flex-col gap-4 rounded-3xl border border-[rgba(148,197,255,0.26)] bg-white/92 px-6 py-8 text-center shadow-[0_18px_44px_rgba(15,23,42,0.12)] sm:px-8 sm:py-10"
@@ -331,6 +315,27 @@ export default function FormationPage() {
             </Link>
           </SectionReveal>
         </main>
+  );
+}
+
+export default function FormationPage() {
+  return (
+    <div className="relative min-h-screen w-full overflow-hidden bg-background text-foreground">
+      <SubtleGridBackground />
+      <div className="relative z-10 flex min-h-screen flex-col items-center gap-6 p-4 sm:p-6">
+        <GradualBlur
+          position="bottom"
+          target="page"
+          strength={2.2}
+          divCount={5}
+          exponential
+          opacity={1}
+          className="pointer-events-none w-full"
+          style={{ height: "6rem" }}
+        />
+        <Suspense fallback={<main className="w-full max-w-5xl space-y-10 pb-10 sm:space-y-12 sm:pb-16 lg:max-w-6xl" />}>
+          <FormationContent />
+        </Suspense>
       </div>
     </div>
   );
