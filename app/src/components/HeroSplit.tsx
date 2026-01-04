@@ -18,6 +18,7 @@ type HeroSplitProps = {
   estimationLabel?: string;
   secondaryLabel?: string;
   agencyUrl?: string;
+  agencyLabel?: string;
   proCard?: {
     name: string;
     title: string;
@@ -72,15 +73,16 @@ export default function HeroSplit({
   estimationLabel = "Estimer mon bien",
   secondaryLabel = "Voir les biens",
   agencyUrl,
+  agencyLabel = "ALV Immobilier",
   proCard,
 }: HeroSplitProps) {
   const searchParams = useSearchParams();
   const searchParamsKey = searchParams.toString();
 
-  const utmValues = useMemo(() => collectUtms(searchParams), [searchParamsKey]);
+  const utmValues = useMemo(() => collectUtms(searchParams), [searchParams, searchParamsKey]);
   const estimationHref = useMemo(
     () => buildEstimationHref(searchParams, estimationBaseUrl),
-    [searchParamsKey, estimationBaseUrl]
+    [searchParams, searchParamsKey, estimationBaseUrl]
   );
 
   const device = useDeviceType();
@@ -254,7 +256,7 @@ export default function HeroSplit({
                       sizes="(max-width: 640px) 120px, 140px"
                     />
                   </div>
-                  <p className="text-sm text-slate-500">À vos côtés depuis plus de 20 ans</p>
+                  <p className="text-sm text-slate-500">{agencyLabel}</p>
                 </div>
               </div>
             )}

@@ -31,18 +31,11 @@ type EstimationStarterProps = {
 export default function EstimationStarter({ pageSource = "hub_matthis" }: EstimationStarterProps) {
   const searchParams = useSearchParams();
   const searchParamsKey = searchParams.toString();
-  const utmValues = useMemo(() => collectUtms(searchParams), [searchParamsKey]);
+  const utmValues = useMemo(() => collectUtms(searchParams), [searchParams, searchParamsKey]);
   const device = useDeviceType();
   const hasStartedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [moduleReady] = useState(true);
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus({ preventScroll: true });
-      handleFocusStart();
-    }
-  }, []);
 
   const sendEvent = useCallback(
     (eventName: string, extra: Record<string, string> = {}) => {
@@ -59,11 +52,18 @@ export default function EstimationStarter({ pageSource = "hub_matthis" }: Estima
     [device, pageSource, utmValues]
   );
 
-  const handleFocusStart = () => {
+  const handleFocusStart = useCallback(() => {
     if (hasStartedRef.current) return;
     hasStartedRef.current = true;
     sendEvent("estimation_flow_start", { step: "localisation" });
-  };
+  }, [sendEvent]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus({ preventScroll: true });
+      handleFocusStart();
+    }
+  }, [handleFocusStart]);
 
   const handleSubmitPlaceholder = (evt: React.FormEvent) => {
     evt.preventDefault();
