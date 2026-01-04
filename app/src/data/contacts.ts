@@ -26,7 +26,7 @@ const contacts: Record<string, Contact> = {
     phone: "+33748944694",
     email: "contact@alvimmobilier.bzh",
     org: "ALV Immobilier",
-    url: "https://www.alvimmobilier.com",
+    url: "https://www.alvimmobilier.bzh",
     address: "19 Pl. Charles de Gaulle, 29190 Pleyben, France",
     note: "Réponse uniquement pour les projets sérieux dans le Finistère.",
   },

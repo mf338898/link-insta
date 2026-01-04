@@ -31,7 +31,7 @@ const availableGuides: AvailableGuide[] = [
     description: "Préparer, estimer, éviter les erreurs, gérer les visites, sélectionner l'agent ou vendre seul.",
     price: "19€",
     ctaLabel: "Accéder au guide",
-    ctaHref: "https://www.alvimmobilier.com/boutique",
+    ctaHref: "https://www.alvimmobilier.bzh/boutique",
   },
   {
     id: "perfect-checklist",
@@ -41,7 +41,7 @@ const availableGuides: AvailableGuide[] = [
     description: "Tous les documents, étapes et contrôles avant mise en vente.",
     price: "15€",
     ctaLabel: "Télécharger",
-    ctaHref: "https://www.alvimmobilier.com/boutique",
+    ctaHref: "https://www.alvimmobilier.bzh/boutique",
   },
 ];
 

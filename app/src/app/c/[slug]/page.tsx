@@ -3,9 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BlurText from "@/components/BlurText";
 import GradualBlur from "@/components/GradualBlur";
-import ReflectiveCard from "@/components/ReflectiveCard";
+import HeroSplit from "@/components/HeroSplit";
 import SectionReveal from "@/components/SectionReveal";
-import ShareButton from "@/components/ShareButton";
 import SubtleGridBackground from "@/components/SubtleGridBackground";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -28,13 +27,15 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
   const contact = getContactBySlug(slug);
   if (!contact) return notFound();
 
+  const estimationBaseUrl = process.env.NEXT_PUBLIC_ESTIMATION_URL ?? "/estimation";
+
   const { name, handle, avatarUrl, url, title, status } = contact;
   const displayHandle = handle ? (handle.startsWith("@") ? handle : `@${handle}`) : null;
   const avatarSrc = avatarUrl ?? "/images/avatars/matthis-profile.png";
   const displayTitle = title ?? "Conseiller immobilier & investisseur local";
   const displayStatus = status ?? "Accompagnement personnalisé et rigoureux.";
   const shareTitle = `${name} - ${displayTitle} (Finistère)`;
-  const fallbackAgencyUrl = "https://www.alvimmobilier.com";
+  const fallbackAgencyUrl = "https://www.alvimmobilier.bzh";
   const agencyUrl = url ?? fallbackAgencyUrl;
   let agencyLabel = agencyUrl.replace(/^https?:\/\//, "");
   if (agencyLabel.endsWith("/")) {
@@ -44,7 +45,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
   const signaturePoints = [
     {
       title: "🎯 Marché",
-      content: "Finistère : Pleyben - Quimper - Brest",
+      content: "Finistère : Pleyben - Brest",
     },
     {
       title: "🧠 Approche",
@@ -149,128 +150,26 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
           style={{ height: "6rem" }}
         />
 
-        <main className="w-full max-w-4xl space-y-10 pb-10 sm:space-y-12 sm:pb-16">
-          <SectionReveal
-            as="section"
-            className="relative px-4 py-8 sm:px-8 sm:py-12"
-          >
-            <div className="relative flex flex-col gap-8">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.7)]">
-                  <span className="rounded-full border border-[rgba(148,197,255,0.35)] bg-white/80 px-3 py-1">Écoute & clarté</span>
-                  <span className="rounded-full border border-[rgba(16,185,129,0.3)] bg-[rgba(16,185,129,0.1)] text-emerald-600 px-3 py-1">Conseil</span>
-                  <span className="rounded-full border border-[rgba(252,211,77,0.35)] bg-[rgba(252,211,77,0.18)] text-amber-600 px-3 py-1">Qualité de suivi</span>
-                </div>
-                <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-center sm:gap-3">
-                  <ShareButton
-                    title={shareTitle}
-                    text="Carte de contact ALV Immobilier"
-                    className={cn(
-                      buttonVariants({ variant: "outline", size: "sm" }),
-                      "w-full sm:w-auto bg-white/95 border-[rgba(148,197,255,0.45)] text-[color:var(--alv-navy)] shadow-[0_14px_30px_rgba(15,23,42,0.12)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(15,23,42,0.16)] active:translate-y-0"
-                    )}
-                  >
-                    <span className="font-semibold text-sm tracking-tight">Partager ma carte</span>
-                  </ShareButton>
-                </div>
-              </div>
-
-              <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
-                <ReflectiveCard
-                  name={name ?? "Matthis Foveau"}
-                  title={displayTitle}
-                  status={displayStatus}
-                  handle={displayHandle ?? undefined}
-                  handleHref="https://www.instagram.com/matthis_immobilier"
-                  imageSrc={avatarSrc}
-                  idLabel="Finistère — ALV Immobilier"
-                  idValue="Pleyben · Quimper · Brest"
-                  className="w-full max-w-[360px] sm:max-w-[380px]"
-                />
-                <div className="flex w-full max-w-[320px] flex-col items-center gap-4 text-center sm:items-start sm:text-left">
-                  <div className="w-full max-w-[240px] sm:max-w-[260px]">
-                    <Image
-                      src="/images/logo/alv-immobilier.svg"
-                      alt="ALV Immobilier"
-                      width={240}
-                      height={100}
-                      className="h-auto w-full"
-                      sizes="(max-width: 640px) 220px, 260px"
-                    />
-                  </div>
-                  <p className="text-sm text-slate-500 max-w-[260px] text-center">À vos côtés depuis plus de 20 ans</p>
-                  <Button
-                    as="a"
-                    href={agencyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="subtle"
-                    size="lg"
-                    className="w-full max-w-[240px] justify-center gap-2"
-                  >
-                    <span>Explorer l'agence</span>
-                    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M7 17L17 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                      <path d="M9 7H17V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <BlurText
-                    as="h1"
-                    text={title ? `${title} - Finistère` : "Conseiller immobilier & investisseur local - Finistère"}
-                    className="text-3xl font-semibold leading-tight text-[color:var(--alv-navy)] sm:text-4xl"
-                  />
-                  <p className="text-lg font-medium text-slate-600 sm:text-xl">J'aide les familles et les investisseurs avec méthode et transparence.</p>
-                  <p className="text-sm font-semibold text-emerald-600 sm:text-base">{displayStatus}</p>
-                </div>
-                <div className="space-y-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-                  <p>Je suis né en Guadeloupe, où j'ai passé mes dix premières années, entouré de soleil, d'eau et de simplicité.</p>
-                  <p>À l'âge de 10 ans, la vie m'a demandé de grandir plus vite que prévu. Le décès de mon père a marqué un tournant, et ma famille a dû repartir de zéro dans le Nord-Pas-de-Calais.</p>
-                  <p>C'est là que j'ai appris deux choses essentielles : rien n'est acquis, et on peut toujours reconstruire, pierre par pierre.</p>
-                  <p>En 2021, j'ai choisi la Bretagne pour écrire mon propre chapitre. J'y ai trouvé ce que je cherchais : de l'authenticité, du sens et la possibilité de bâtir.</p>
-                  <p>Aujourd'hui, j'accompagne les projets immobiliers avec cette même philosophie : prendre le temps, faire les choses bien, et avancer avec sérieux, humanité et clarté.</p>
-                  <p className="text-sm font-semibold text-[color:var(--alv-navy)] sm:text-base">Je ne vends pas des biens - j'accompagne des décisions de vie.</p>
-                </div>
-                <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[rgba(30,58,95,0.7)]">
-                  <span className="rounded-full bg-[rgba(148,197,255,0.18)] px-3 py-1 text-[color:var(--alv-navy)]">Pleyben</span>
-                  <span className="rounded-full bg-[rgba(148,197,255,0.18)] px-3 py-1 text-[color:var(--alv-navy)]">Quimper</span>
-                  <span className="rounded-full bg-[rgba(148,197,255,0.18)] px-3 py-1 text-[color:var(--alv-navy)]">Brest</span>
-                </div>
-              </div>
-            </div>
-          </SectionReveal>
-
-          <SectionReveal
-            as="section"
-            className="relative px-4 py-8 sm:px-8 sm:py-10"
-          >
-            <div className="relative space-y-6">
-              <header className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">Signature</p>
-                <BlurText
-                  as="h2"
-                  text="Mon cadre d'accompagnement"
-                  className="text-2xl font-semibold text-[color:var(--alv-navy)] sm:text-[26px]"
-                />
-              </header>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {signaturePoints.map((point) => (
-                  <div
-                    key={point.title}
-                    className="rounded-2xl border border-[rgba(148,197,255,0.24)] bg-white/85 p-4 text-[color:var(--alv-navy)] shadow-[0_16px_32px_rgba(15,23,42,0.1)]"
-                  >
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[rgba(30,58,95,0.7)]">{point.title}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-[color:var(--alv-navy)]">{point.content}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </SectionReveal>
-
+        <main className="w-full max-w-5xl space-y-10 pb-10 sm:space-y-12 sm:pb-16 lg:max-w-6xl">
+          <HeroSplit
+            estimationBaseUrl={estimationBaseUrl}
+            secondaryHref="https://www.alvimmobilier.bzh/catalog/products_selled.php?filtre=Vente"
+            pageSource="hub_matthis"
+            estimationLabel="Estimer mon bien"
+            secondaryLabel="Voir les biens"
+            agencyUrl={agencyUrl}
+            agencyLabel={agencyLabel}
+            proCard={{
+              name: name ?? "Matthis Foveau",
+              title: displayTitle,
+              status: displayStatus,
+              handle: displayHandle,
+              handleHref: "https://www.instagram.com/matthis_immobilier",
+              imageSrc: avatarSrc,
+              idLabel: "Finistère — ALV Immobilier",
+              idValue: "Pleyben · Brest",
+            }}
+          />
           {/* Section : Mes autres projets & liens utiles */}
           <SectionReveal
             as="section"
@@ -346,7 +245,7 @@ export default async function ContactPage(props: { params: Promise<{ slug: strin
           >
             <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[rgba(76,29,149,0.65)]">Liens directs</p>
-              <p className="text-sm text-slate-500">📍 Pleyben - Quimper - Brest</p>
+              <p className="text-sm text-slate-500">📍 Pleyben - Brest</p>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
               {footerLinks.map((item) => (
